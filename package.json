@@ -1,0 +1,32 @@
+{
+  "name": "groa-router",
+  "version": "0.0.1",
+  "description": "Router middleware for Groa gRPC framework",
+  "main": "./lib/router.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GroaJS/groa-router.git"
+  },
+  "keywords": [
+    "framework",
+    "grpc"
+  ],
+  "author": "Fred Chien <cfsghost@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GroaJS/groa-router/issues"
+  },
+  "homepage": "https://github.com/GroaJS/groa-router#readme",
+  "dependencies": {
+    "debug": "^3.0.1"
+  },
+  "devDependencies": {
+    "groa": "0.0.4"
+  },
+  "engines": {
+    "node": ">= 7.6"
+  }
+}
