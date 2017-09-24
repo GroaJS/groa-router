@@ -33,7 +33,7 @@ app.addProto(__dirname + '/example.proto');
 // package: example.foo
 // service: Example1
 // method: echo
-router.rpc('example.foo.Example1.echo', async (ctx) => {
+router.rpc('/example.foo.Example1/Echo', async (ctx) => {
 
 	console.log('Echo');
 	ctx.body = ctx.req.body;
