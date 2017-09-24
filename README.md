@@ -16,26 +16,31 @@ Install via NPM:
 npm install groa-router --save
 ```
 
-## Get Started
+## Usage
 
-The same way with Koa to implement your first gRPC server:
+Create a router to manage your gRPC service and corresponding methods:
 
 ```javascript
 const Groa = require('groa');
+const Router = require('groa-router');
 
 const app = new Groa();
+const router = new Router();
 
 // Add proto file
-app.addProto(__dirname + '/proto/example.proto');
+app.addProto(__dirname + '/example.proto');
 
-// Add middleware
-app.use(async (ctx, next) => {
+// package: example.foo
+// service: Example1
+// method: echo
+router.rpc('example.foo.Example1.echo', async (ctx) => {
 
-	// response
-	ctx.body = {
-		content: 'hello'
-	};
+	console.log('Echo');
+	ctx.body = ctx.req.body;
 });
+
+// Add router middleware
+app.use(router.routes());
 
 app.listen(50051, () => {
 	console.log('Listening on port 50051');
@@ -50,81 +55,37 @@ syntax = "proto3";
 package example.foo;
 
 service Example1 {
-	rpc Ping(Ping) returns (Pong) {}
+	rpc Ping(Echo) returns (Echo) {}
+	rpc Echo(Echo) returns (Echo) {}
+	rpc Hello(Hello) returns (Hello) {}
 }
 
-message Ping {
+message Echo {
 	string content = 1;
 }
 
-message Pong {
-	string content = 1;
+message Hello {
+	string msg = 1;
 }
 ```
 
-## Streaming
+## Router Prefixes
 
-Implement streaming method is quite easy that writing to `Stream` object of body directly.
+Route paths can be prefixed at the router level:
 
 ```javascript
-const Groa = require('groa');
-
-const app = new Groa();
-
-// Add proto file
-app.addProto(__dirname + '/proto/stream.proto');
-
-const delay = (interval) => {
-	return new Promise((resolve) => {
-		setTimeout(resolve, interval);
-	});
-}
-
-// Add middleware
-app.use(async (ctx, next) => {
-
-	// send a message
-	ctx.body.write({
-		timestamp: new Date()
-	});
-	
-	// delay 1 second
-	await delay(1000);
-	
-	// send a message
-	ctx.body.write({
-		timestamp: new Date()
-	});
-	
-	// delay 1 second
-	await delay(1000);
-	
-	// complete
-	ctx.body.end();
+// package: example.foo
+// service: Example1
+const router = new Router({
+	prefix: 'example.foo.Example1'
 });
 
-app.listen(50051, () => {
-	console.log('Listening on port 50051');
+// method: echo
+router.rpc('echo', async (ctx) => {
+
+	console.log('Echo');
+	ctx.body = ctx.req.body;
 });
-```
-
-__stream.proto__
-
-```proto
-syntax = "proto3";
-
-package example.foo;
-
-service Example1 {
-	rpc receive(ReceiveRequest) returns (stream ReceiveResponse) {};
-}
-
-message ReceiveRequest {
-}
-
-message ReceiveResponse {
-	string timestamp = 1;
-}
 ```
 
 ## License
