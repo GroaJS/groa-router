@@ -24,7 +24,7 @@
     "debug": "^3.0.1"
   },
   "devDependencies": {
-    "groa": "0.0.4"
+    "groa": "^0.0.5"
   },
   "engines": {
     "node": ">= 7.6"
