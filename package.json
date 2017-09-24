@@ -1,6 +1,6 @@
 {
   "name": "groa-router",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Router middleware for Groa gRPC framework",
   "main": "./lib/router.js",
   "scripts": {
